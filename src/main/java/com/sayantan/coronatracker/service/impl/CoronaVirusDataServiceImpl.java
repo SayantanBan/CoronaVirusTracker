@@ -222,8 +222,6 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
         StringReader csvBodyReader = new StringReader(httpResponse.body());
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
         recoveredCase = caseNumber(records, recoveredCaseCountryMap, "recovered");
-        ;
-        this.allRecoveredCaseStats = newStats;
         logger.debug("<fetchVirusDataRecovered");
     }
 }

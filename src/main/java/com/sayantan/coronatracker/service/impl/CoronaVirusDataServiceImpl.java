@@ -91,7 +91,7 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
     public List<NumberStats> getAllNumbers() {
         logger.debug(">getAllImportantFigures");
         List<NumberStats> stats = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             NumberStats numberStats = new NumberStats();
             if ("0".equals(String.valueOf(i))) {
                 numberStats.setTitle("Confirmed Cases");
@@ -110,13 +110,17 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
                 numberStats.setTitle("Recovery Percentage");
                 double recoveryPercentage = recoveredCase / confirmedCase * 100;
                 numberStats.setNumber(Math.round(recoveryPercentage));
+            } else if ("5".equals(String.valueOf(i))) {
+                numberStats.setTitle("Treatment Percentage(People undergoing treatment)");
+                double recoveryPercentage = ((confirmedCase - (recoveredCase + death)) / confirmedCase) * 100;
+                numberStats.setNumber(Math.round(recoveryPercentage));
             }
             stats.add(numberStats);
         }
         logger.debug("<getAllImportantFigures");
         return stats;
     }
-
+    
     private void mapCountryWiseData(HashMap<String, CountryStats> map, CSVRecord record) {
         logger.debug(">mapCountryWiseData");
         if (null != map.get(record.get("Country/Region"))) {

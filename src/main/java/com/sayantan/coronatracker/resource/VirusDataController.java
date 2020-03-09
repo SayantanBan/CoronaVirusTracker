@@ -81,7 +81,7 @@ public class VirusDataController {
         return coronaVirusDataService.getAllCountryDeathStats();
     }
 
-    @GetMapping("/fetchCountryRecoveredCase")
+    @GetMapping("/fetchCountryWiseRecoveredCase")
     public List<CountryStats> fetchCountryRecoveredCase() {
         return coronaVirusDataService.getAllCountryRecoverdStats();
     }

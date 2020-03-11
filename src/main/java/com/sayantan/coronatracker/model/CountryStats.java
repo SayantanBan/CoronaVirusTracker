@@ -2,7 +2,7 @@ package com.sayantan.coronatracker.model;
 
 import java.util.HashMap;
 
-public class CountryStats {
+public class CountryStats implements Comparable<CountryStats> {
     private String countryName;
     private int virusCase;
     private HashMap<String, Integer> stateMap;
@@ -38,5 +38,15 @@ public class CountryStats {
                 ", virusCase=" + virusCase +
                 ", stateMap=" + stateMap +
                 '}';
+    }
+
+    @Override
+    public int compareTo(CountryStats o) {
+        if(this.getVirusCase()>o.getVirusCase())
+            return 1;
+        else if(this.getVirusCase()<o.getVirusCase()){
+            return -1;
+        }
+        return 0;
     }
 }

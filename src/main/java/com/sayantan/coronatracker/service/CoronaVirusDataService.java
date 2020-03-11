@@ -19,9 +19,15 @@ public interface CoronaVirusDataService {
 
     List<LocationStats> getAllConfirmedCaseStats();
 
+    List<LocationStats> getAllConfirmedCaseStats(int page);
+
     List<LocationStats> getAllDeathCaseStats();
 
+    List<LocationStats> getAllDeathCaseStats(int page);
+
     List<LocationStats> getAllRecoveredCaseStats();
+
+    List<LocationStats> getAllRecoveredCaseStats(int page);
 
     List<NumberStats> getAllNumbers();
 
@@ -36,4 +42,5 @@ public interface CoronaVirusDataService {
     double totalDeathToll();
 
     double totalRecoveredCase();
+
 }

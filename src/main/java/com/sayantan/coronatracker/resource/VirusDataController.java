@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public class VirusDataController {
         return coronaVirusDataService.getAllNumbers();
     }
 
+    @GetMapping("/fetchConfirmedCaseDetails/page")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public List<LocationStats> fetchConfirmedCaseDetails(@RequestParam("page") int page) {
+        logger.info(">fetchConfirmedCaseDetails");
+        logger.info("<fetchConfirmedCaseDetails");
+        return coronaVirusDataService.getAllConfirmedCaseStats(page);
+    }
+
     @GetMapping("/fetchConfirmedCaseDetails")
     public List<LocationStats> fetchConfirmedCaseDetails() {
         logger.info(">fetchConfirmedCaseDetails");
@@ -43,6 +52,13 @@ public class VirusDataController {
         return coronaVirusDataService.totalConfirmedCase();
     }
 
+    @GetMapping("/fetchDeathCaseDetails/page")
+    public List<LocationStats> fetchDeathCaseDetails(@RequestParam("page") int page) {
+        logger.info(">fetchDeathCaseDetails");
+        logger.info("<fetchDeathCaseDetails");
+        return coronaVirusDataService.getAllDeathCaseStats(page);
+    }
+
     @GetMapping("/fetchDeathCaseDetails")
     public List<LocationStats> fetchDeathCaseDetails() {
         logger.info(">fetchDeathCaseDetails");
@@ -55,6 +71,13 @@ public class VirusDataController {
         logger.info(">fetchDeathCase");
         logger.info("<fetchDeathCase");
         return coronaVirusDataService.totalDeathToll();
+    }
+
+    @GetMapping("/fetchRecoveredCaseDetails/page")
+    public List<LocationStats> fetchRecoveredCaseDetails(@RequestParam("page") int page) {
+        logger.info(">fetchRecoveredCaseDetails");
+        logger.info("<fetchRecoveredCaseDetails");
+        return coronaVirusDataService.getAllRecoveredCaseStats(page);
     }
 
     @GetMapping("/fetchRecoveredCaseDetails")
@@ -81,7 +104,7 @@ public class VirusDataController {
         return coronaVirusDataService.getAllCountryDeathStats();
     }
 
-    @GetMapping("/fetchCountryWiseRecoveredCase")
+    @GetMapping("/fetchCountryRecoveredCase")
     public List<CountryStats> fetchCountryRecoveredCase() {
         return coronaVirusDataService.getAllCountryRecoverdStats();
     }

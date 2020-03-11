@@ -19,6 +19,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,6 +46,42 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
     }
 
     @Override
+    public List<LocationStats> getAllConfirmedCaseStats(int page) {
+        int firstPage = 1;
+        if (page > 1)
+            firstPage = (page - 1) * 30 + 1;
+        int lastPage = firstPage + 30;
+        if ((lastPage > allRecoveredCaseStats.size())) {
+            lastPage = allRecoveredCaseStats.size();
+        }
+        return allConfirmedCaseStats.subList(firstPage, lastPage);
+    }
+
+    @Override
+    public List<LocationStats> getAllDeathCaseStats(int page) {
+        int firstPage = 1;
+        if (page > 1)
+            firstPage = (page - 1) * 30 + 1;
+        int lastPage = firstPage + 30;
+        if ((lastPage > allDeathCaseStats.size())) {
+            lastPage = allDeathCaseStats.size();
+        }
+        return allDeathCaseStats.subList(firstPage, lastPage);
+    }
+
+    @Override
+    public List<LocationStats> getAllRecoveredCaseStats(int page) {
+        int firstPage = 1;
+        if (page > 1)
+            firstPage = (page - 1) * 30 + 1;
+        int lastPage = firstPage + 30;
+        if ((lastPage > allRecoveredCaseStats.size())) {
+            lastPage = allRecoveredCaseStats.size();
+        }
+        return allRecoveredCaseStats.subList(firstPage, lastPage);
+    }
+
+    @Override
     public List<LocationStats> getAllDeathCaseStats() {
         return allDeathCaseStats;
     }
@@ -57,6 +94,7 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
     @Override
     public List<CountryStats> getAllCountryConfirmedStats() {
         confirmedStatus.addAll(confirmedCaseCountryMap.values());
+        Collections.sort(confirmedStatus, Collections.reverseOrder());
         return confirmedStatus;
     }
 
@@ -111,7 +149,7 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
                 double recoveryPercentage = recoveredCase / confirmedCase * 100;
                 numberStats.setNumber(Math.round(recoveryPercentage));
             } else if ("5".equals(String.valueOf(i))) {
-                numberStats.setTitle("Treatment Percentage(People undergoing treatment)");
+                numberStats.setTitle("Ongoing Treatment Percentage");
                 double recoveryPercentage = ((confirmedCase - (recoveredCase + death)) / confirmedCase) * 100;
                 numberStats.setNumber(Math.round(recoveryPercentage));
             }
@@ -120,7 +158,7 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
         logger.debug("<getAllImportantFigures");
         return stats;
     }
-    
+
     private void mapCountryWiseData(HashMap<String, CountryStats> map, CSVRecord record) {
         logger.debug(">mapCountryWiseData");
         if (null != map.get(record.get("Country/Region"))) {
@@ -166,10 +204,13 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
         }
         if (caseName.equals("confirmed")) {
             this.allConfirmedCaseStats = newStats;
+            Collections.sort(allConfirmedCaseStats);
         } else if (caseName.equals("death")) {
             this.allDeathCaseStats = newStats;
+            Collections.sort(allDeathCaseStats);
         } else if (caseName.equals("recovered")) {
             this.allRecoveredCaseStats = newStats;
+            Collections.sort(allRecoveredCaseStats);
         }
         logger.debug("<caseNumber");
         return number;

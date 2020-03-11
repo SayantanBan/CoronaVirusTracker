@@ -93,8 +93,9 @@ public class CoronaVirusDataServiceImpl implements CoronaVirusDataService {
 
     @Override
     public List<CountryStats> getAllCountryConfirmedStats() {
+        confirmedStatus.clear();
         confirmedStatus.addAll(confirmedCaseCountryMap.values());
-        Collections.sort(confirmedStatus, Collections.reverseOrder());
+        confirmedStatus.sort(Collections.reverseOrder());
         return confirmedStatus;
     }
 
